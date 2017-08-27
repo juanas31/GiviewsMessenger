@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "661478623400",
+    "firebase_url": "https://giviewsmessenger.firebaseio.com",
+    "project_id": "giviewsmessenger",
+    "storage_bucket": "giviewsmessenger.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661478623400:android:89c775b6b52ff5a9",
+        "android_client_info": {
+          "package_name": "com.giviews.giviewsmessenger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661478623400-87pnp1tn1ejhf47s9s6o0srqq9srmn9e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.giviews.giviewsmessenger",
+            "certificate_hash": "5b9514d97806e8556f80738edb1a1526cdfeff05"
+          }
+        },
+        {
+          "client_id": "661478623400-nump5n0ur7ovv9q131um1ncso8hr3hiq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj2-9CKnf-FR0vZ8B33SKks5lQlvWR_Sg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661478623400-nump5n0ur7ovv9q131um1ncso8hr3hiq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

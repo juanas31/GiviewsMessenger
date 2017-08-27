@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/colorPrimary"
+    tools:context="com.giviews.giviewsmessenger.StartActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/header"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/favicon"
+            android:layout_weight="1"/>
+        <TextView
+            android:textColor="@color/colorWhite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="25sp"
+            android:layout_gravity="center_vertical"
+            android:text="Giviews Messenger"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@color/colorWhite"
+        android:text="Welcome to Giviews Messenger"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_below="@+id/welcome"
+        android:layout_marginTop="30dp"
+        android:id="@+id/registerLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorPrimary"
+        android:text="Daftar Gratis"/>
+
+    <TextView
+        android:textColor="@color/colorWhite"
+        android:layout_marginTop="20dp"
+        android:id="@+id/text"
+        android:layout_below="@+id/googleBtn"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sudah Menjadi Pengguna ?"/>
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/googleBtn"
+        android:layout_below="@+id/registerLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        android:text="Lanjutkan dengan Google"/>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/text"
+        android:id="@+id/loginLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:textColor="@color/colorPrimary"
+        android:text="Masuk"/>
+
+</RelativeLayout>
