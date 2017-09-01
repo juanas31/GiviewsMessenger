@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.HashMap;
 
@@ -106,12 +107,14 @@ public class RegisterActivity extends AppCompatActivity {
                             String uid = currentUser.getUid();
 
                             mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+                            String device_token = FirebaseInstanceId.getInstance().getToken();
 
                             HashMap<String, String> userMap = new HashMap<String, String>();
                             userMap.put("name", displayname);
                             userMap.put("status", "Hi there, I'm using giviews");
                             userMap.put("image", "default");
                             userMap.put("thumb_image", "default");
+                            userMap.put("device_token", device_token);
 
                             mDatabase.setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

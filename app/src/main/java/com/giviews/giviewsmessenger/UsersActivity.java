@@ -35,6 +35,7 @@ public class UsersActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
         mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        mUsersDatabase.keepSynced(true);
 
         mToolbar = (Toolbar) findViewById(R.id.users_appBar);
         setSupportActionBar(mToolbar);
@@ -101,18 +102,18 @@ public class UsersActivity extends AppCompatActivity {
 
         public void setImage(final Context ctx, final String thumb_image) {
             final CircleImageView profil_image = (CircleImageView) mView.findViewById(R.id.circleImageView);
-            Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(profil_image);
-//            Picasso.with(ctx).load(image).networkPolicy(NetworkPolicy.OFFLINE).into(profil_image, new Callback() {
-//                @Override
-//                public void onSuccess() {
-//
-//                }
-//
-//                @Override
-//                public void onError() {
-//                    Picasso.with(ctx).load(image).into(profil_image);
-//                }
-//            });
+
+            Picasso.with(ctx).load(thumb_image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.default_avatar).into(profil_image, new Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError() {
+                    Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(profil_image);
+                }
+            });
         }
     }
 }

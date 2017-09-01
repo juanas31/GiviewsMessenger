@@ -11,6 +11,8 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private SectionsPagerAdapter mSectionPagerAdapter;
     private TabLayout mTabLayout;
+
+    private DatabaseReference mUsersDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
         mTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         mTabLayout.setupWithViewPager(mViewPager);
+
+        mUsersDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
     }
 
     @Override
@@ -48,10 +54,17 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser == null) {
-
             sendToStart();
-
+        }else {
+            mUsersDatabase.child("online").setValue(true);
         }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        mUsersDatabase.child("online").setValue(false);
     }
 
     private void sendToStart() {

@@ -24,6 +24,17 @@
         android:textStyle="bold"
         android:text="Username" />
 
+    <ImageView
+        android:id="@+id/online_dots"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/ic_online_dots"
+        android:layout_toRightOf="@+id/username"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:visibility="visible"/>
+
     <TextView
         android:id="@+id/status"
         android:layout_width="wrap_content"
