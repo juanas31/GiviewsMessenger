@@ -128,6 +128,21 @@ public class ProfileActivity extends AppCompatActivity {
 
                                 mProfileDecReqBtn.setVisibility(View.INVISIBLE);
                                 mProfileDecReqBtn.setEnabled(false);
+
+                            } else if (mCurrentState.equals("friends")) {
+
+                                mProfileSendReqBtn.setText("Unfriend This Person");
+
+                                mProfileDecReqBtn.setVisibility(View.INVISIBLE);
+                                mProfileDecReqBtn.setEnabled(false);
+
+                            } else if (mCurrentState.equals("not_friends")) {
+
+                                mProfileSendReqBtn.setText("Send Friend Request");
+
+                                mProfileDecReqBtn.setVisibility(View.INVISIBLE);
+                                mProfileDecReqBtn.setEnabled(false);
+
                             }
                             mProgress.dismiss();
 
