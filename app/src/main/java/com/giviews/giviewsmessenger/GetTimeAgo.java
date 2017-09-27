@@ -29,19 +29,19 @@ public class GetTimeAgo extends Application {
         //TODO: localize
         final long diff = now - time;
         if (diff < MINUTE_MILIS) {
-            return "just now";
+            return "baru saja";
         }else if (diff < 2 * MINUTE_MILIS) {
-            return "a minute ago";
+            return "satu menit yang lalu";
         }else if (diff < 50 * MINUTE_MILIS) {
-            return diff / MINUTE_MILIS + "minutes ago";
+            return diff / MINUTE_MILIS + " menit yang lalu";
         }else if (diff < 90 * MINUTE_MILIS) {
-            return "an hour ago";
+            return "satu jam yang lalu";
         }else if (diff < 24 + HOUR_MILIS) {
-            return diff / HOUR_MILIS + "hour ago";
+            return diff / HOUR_MILIS + " jam yang lalu";
         }else if (diff < 48 * HOUR_MILIS) {
-            return "yesterday";
+            return "kemarin";
         }else {
-            return diff / DAY_MILIS + "days ago";
+            return diff / DAY_MILIS + " hari yang lalu";
         }
     }
 }

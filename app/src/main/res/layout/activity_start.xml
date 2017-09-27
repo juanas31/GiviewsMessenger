@@ -4,15 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:background="@color/colorPrimary"
     tools:context="com.giviews.giviewsmessenger.StartActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_top"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.giviews.giviewsmessenger._sliders.SliderView
+                android:id="@+id/sliderView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_indicator"/>
+
+        <LinearLayout
+            android:id="@+id/pagesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="38dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal"/>
+
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:id="@+id/header"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
         android:layout_height="wrap_content">
         <ImageView
@@ -30,55 +62,65 @@
             android:text="Giviews Messenger"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/welcome"
-        android:layout_marginTop="50dp"
-        android:layout_below="@+id/header"
+
+
+    <RelativeLayout
+        android:id="@+id/btnlayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:textColor="@color/colorWhite"
-        android:text="Welcome to Giviews Messenger"
-        android:gravity="center"/>
+        android:layout_marginTop="150dp"
+        android:layout_marginBottom="60dp"
+        android:padding="10dp">
 
-    <Button
-        android:layout_below="@+id/welcome"
-        android:layout_marginTop="30dp"
-        android:id="@+id/registerLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:textColor="@color/colorPrimary"
-        android:text="Daftar Gratis"/>
+        <TextView
+            android:id="@+id/welcome"
+            android:layout_above="@+id/registerLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/colorWhite"
+            android:text="Welcome to Giviews Messenger"
+            android:gravity="center"/>
 
-    <TextView
-        android:textColor="@color/colorWhite"
-        android:layout_marginTop="20dp"
-        android:id="@+id/text"
-        android:layout_below="@+id/googleBtn"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sudah Menjadi Pengguna ?"/>
+        <Button
+            android:layout_above="@+id/googleBtn"
+            android:layout_marginTop="30dp"
+            android:id="@+id/registerLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorPrimary"
+            android:text="Daftar Gratis"/>
 
-    <Button
-        android:layout_marginTop="20dp"
-        android:id="@+id/googleBtn"
-        android:layout_below="@+id/registerLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:textColor="@color/colorWhite"
-        android:text="Lanjutkan dengan Google"/>
+        <TextView
+            android:textColor="@color/colorWhite"
+            android:layout_marginTop="20dp"
+            android:id="@+id/text"
+            android:layout_above="@+id/loginLink"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sudah Menjadi Pengguna ?"/>
 
-    <Button
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/text"
-        android:id="@+id/loginLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:textColor="@color/colorPrimary"
-        android:text="Masuk"/>
+        <Button
+            android:layout_marginTop="20dp"
+            android:id="@+id/googleBtn"
+            android:layout_above="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textColor="@color/colorWhite"
+            android:text="Lanjutkan dengan Google"/>
 
+        <Button
+            android:layout_marginTop="10dp"
+            android:id="@+id/loginLink"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:textColor="@color/colorPrimary"
+            android:layout_alignParentBottom="true"
+            android:text="Masuk"/>
+
+    </RelativeLayout>
 </RelativeLayout>

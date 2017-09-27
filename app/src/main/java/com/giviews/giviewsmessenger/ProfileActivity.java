@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,10 +35,12 @@ import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
 
+    // view
     private ImageView mProfilImage;
     private TextView mProfileName, mProfilStatus, mCountFriends;
     private Button mProfileSendReqBtn, mProfileDecReqBtn;
 
+    // Firebase
     private DatabaseReference mUserDatabase;
     private DatabaseReference mFriendRequestDatabase;
     private FirebaseUser mCurrentUser;
@@ -52,16 +55,24 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        //Transparent Status Bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        // Progress Dialog
         mProgress = new ProgressDialog(this);
         mSendProgress = new ProgressDialog(this);
         mCancelProgress = new ProgressDialog(this);
 
+        // Menampilkan pesan di progress dialog
         mProgress.setMessage("Loading User Data");
         mProgress.show();
 
+        // mendapatkan id user
         final String user_id = getIntent().getStringExtra("user_id");
         mCurrentState = "not_friends";
 
+        // Firebase
         mRootRef = FirebaseDatabase.getInstance().getReference();
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(user_id);
         mUserDatabase.keepSynced(true);
@@ -72,6 +83,7 @@ public class ProfileActivity extends AppCompatActivity {
         mFriendsDatabase.keepSynced(true);
         mNotificationDatabase = FirebaseDatabase.getInstance().getReference().child("Notification");
 
+        // View
         mProfilImage = (ImageView) findViewById(R.id.dispImage);
         mProfileName = (TextView) findViewById(R.id.dispName);
         mProfilStatus = (TextView) findViewById(R.id.dispStatus);
@@ -79,17 +91,26 @@ public class ProfileActivity extends AppCompatActivity {
         mProfileSendReqBtn = (Button) findViewById(R.id.profileReqBtn);
         mProfileDecReqBtn = (Button) findViewById(R.id.profileRejectBtn);
 
-        mProfileDecReqBtn.setVisibility(View.INVISIBLE);
-        mProfileDecReqBtn.setEnabled(false);
+        // jika userId = yang sedang login jangan tampilkan btn pertemanan
+        if (mCurrentUser.getUid() == user_id) {
+            mProfileSendReqBtn.setVisibility(View.INVISIBLE);
+            mProfileSendReqBtn.setEnabled(false);
 
+            mProfileDecReqBtn.setVisibility(View.INVISIBLE);
+            mProfileDecReqBtn.setEnabled(false);
+        }
+
+        // Mengambil data dari database
         mUserDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
+                // data yang diambil dari database
                 String display_name = dataSnapshot.child("name").getValue().toString();
                 String display_status = dataSnapshot.child("status").getValue().toString();
                 final String image = dataSnapshot.child("image").getValue().toString();
 
+                // mengubah value dengan data dinamis
                 mProfileName.setText(display_name);
                 mProfilStatus.setText(display_status);
                 Picasso.with(ProfileActivity.this).load(image).networkPolicy(NetworkPolicy.OFFLINE).placeholder(R.drawable.default_avatar).into(mProfilImage, new Callback() {
@@ -111,8 +132,10 @@ public class ProfileActivity extends AppCompatActivity {
 
                         if (dataSnapshot.hasChild(user_id)) {
 
+                            // mengambil jenis request
                             String req_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
 
+                            // request type
                             if (req_type.equals("received")) {
 
                                 mCurrentState = "req_received";
@@ -148,6 +171,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                         }else {
 
+                            // jika sudah berteman
                             mFriendsDatabase.child(mCurrentUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -184,6 +208,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        // menambahkan aksi pada btn send request
         mProfileSendReqBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -193,9 +218,11 @@ public class ProfileActivity extends AppCompatActivity {
 
                 if (mCurrentState.equals("not_friends")) {
 
+                    // pesan progress dialog
                     mSendProgress.setMessage("Sending Friend Request");
                     mSendProgress.show();
 
+                    // untuk notifikasi
                     DatabaseReference newNotificationRef = mRootRef.child("Notification").child(user_id).push();
                     String newNotificationId = newNotificationRef.getKey();
 
@@ -259,12 +286,22 @@ public class ProfileActivity extends AppCompatActivity {
                 if (mCurrentState.equals("req_received")) {
                     final String currentDate = DateFormat.getDateTimeInstance().format(new Date());
 
+                    //push notification
+                    DatabaseReference newNotificationRef = mRootRef.child("Notification").child(user_id).push();
+                    String newNotificationId = newNotificationRef.getKey();
+
+                    HashMap<String, String> notificationData = new HashMap<String, String>();
+                    notificationData.put("from", mCurrentUser.getUid());
+                    notificationData.put("type", "received");
+
+                    //friends received query
                     Map friendsMap = new HashMap();
                     friendsMap.put("Friends/" + mCurrentUser.getUid() + "/" + user_id + "/date", currentDate);
                     friendsMap.put("Friends/" + user_id + "/" + mCurrentUser.getUid() + "/date", currentDate);
 
                     friendsMap.put("Friend_req/" + mCurrentUser.getUid() + "/" + user_id, null);
                     friendsMap.put("Friend_req/" + user_id + "/" + mCurrentUser.getUid(), null);
+                    friendsMap.put("Notification/" + user_id + "/" + newNotificationId, notificationData);
 
                     mRootRef.updateChildren(friendsMap, new DatabaseReference.CompletionListener() {
                         @Override

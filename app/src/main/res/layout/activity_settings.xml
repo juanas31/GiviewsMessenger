@@ -38,6 +38,7 @@
         android:layout_below="@+id/displayName"/>
 
     <Button
+        android:visibility="visible"
         android:id="@+id/changeImageBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,6 +52,7 @@
         android:layout_marginBottom="14dp" />
 
     <Button
+        android:visibility="visible"
         android:id="@+id/changeStatusBtn"
         android:background="@color/colorAccent"
         android:textColor="@color/colorWhite"

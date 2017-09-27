@@ -99,6 +99,23 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        mDisplayImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent galleryIntent = new Intent();
+                galleryIntent.setType("image/*");
+                galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(galleryIntent, "SELECT IMAGE"), GALLERY_PICT);
+
+//                CropImage.activity()
+//                        .setGuidelines(CropImageView.Guidelines.ON)
+//                        .start(SettingsActivity.this);
+
+            }
+        });
+
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         String current_uid = mCurrentUser.getUid();

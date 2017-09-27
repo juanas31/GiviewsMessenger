@@ -14,9 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.giviews.giviewsmessenger.adapter.MessageAdapter;
+import com.giviews.giviewsmessenger.models.Messages;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseUserActions;
 import com.google.firebase.appindexing.builders.Actions;
@@ -64,9 +65,9 @@ public class ChatActivity extends AppCompatActivity {
     private MessageAdapter mAdapter;
 
     //Swipe refresh
-    private SwipeRefreshLayout mRefreshLayout;
-    private static final int TOTAL_ITEMS_TO_LOAD = 7;
-    private int mCurrentPage = 1;
+//    private SwipeRefreshLayout mRefreshLayout;
+//    private static final int TOTAL_ITEMS_TO_LOAD = 20;
+//    private int mCurrentPage = 1;
 
     //--------------- ON CRETE METHODS --------------------------
     @Override
@@ -85,6 +86,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //mendaftarkan toolbar
         mChatToolbar = (Toolbar) findViewById(R.id.chat_bar);
+        setSupportActionBar(mChatToolbar);
 
         //---------------custom action bar---------------------------------
         ActionBar actionBar = getSupportActionBar();
@@ -113,13 +115,13 @@ public class ChatActivity extends AppCompatActivity {
         //------------------------------------ Messages core---------------------------------------------
         mAdapter = new MessageAdapter(messageList);
         mMessagesList = (RecyclerView) findViewById(R.id.messages_list);
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.message_swipe_layout);
+//        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.message_swipe_layout);
         mLinearLayout = new LinearLayoutManager(this);
         mMessagesList.setHasFixedSize(true);
         mMessagesList.setLayoutManager(mLinearLayout);
         mMessagesList.setAdapter(mAdapter);
 
-        //mengambil pesan
+        //mengambil pesan yang sudah ada
         loadMessages();
 
         //untuk judul siapa yang ngechat
@@ -136,11 +138,11 @@ public class ChatActivity extends AppCompatActivity {
                 Picasso.with(ChatActivity.this).load(image).placeholder(R.drawable.default_avatar).into(mProfileImageView);
 
                 //------------------------------last seen view------------------------------------------------------------
-                if (online.equals("true")) {
+                if (online.equals("online")) {
                     mLastSeenView.setText("Online");
                 }else {
                     GetTimeAgo getTimeAgo = new GetTimeAgo();
-                    Long lastTime = Long.parseLong(online);
+                    long lastTime = Long.parseLong(online);
                     String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getApplicationContext());
 
                     mLastSeenView.setText(lastSeenTime);
@@ -196,24 +198,19 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         //Refresh Layout
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mCurrentPage++;
-
-                messageList.clear();
-
-                loadMessages();
-            }
-        });
+//        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                mCurrentPage++;
+//                messageList.clear();
+//                loadMessages();
+//            }
+//        });
     }
 
     //LoadMessage
     private void loadMessages() {
-        DatabaseReference messageRef = mRootRef.child("messages").child(mCurrentUserId).child(mChatUser);
-        Query messageQuery = messageRef.limitToLast(mCurrentPage * TOTAL_ITEMS_TO_LOAD);
-
-        messageQuery.addChildEventListener(new ChildEventListener() {
+        mRootRef.child("messages").child(mCurrentUserId).child(mChatUser).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Messages message = dataSnapshot.getValue(Messages.class);
@@ -224,7 +221,7 @@ public class ChatActivity extends AppCompatActivity {
                 mMessagesList.scrollToPosition(messageList.size() -1);
 
                 //Menghentikan refresh ketika pesan sudah muncul
-                mRefreshLayout.setRefreshing(false);
+//                mRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -247,6 +244,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+        //messageList.clear();
     }
 
     //--------------------------- FUNGSI KIRIM PESAN---------------------------------------------
@@ -279,6 +277,9 @@ public class ChatActivity extends AppCompatActivity {
 
             //mengosongkan edittext ketika pesan telah dikirim
             mChatMessageView.setText("");
+//            messageList.clear();
+//            mMessagesList.scrollToPosition(messageList.size() -1);
+            loadMessages();
 
             //mengirim value ke database, valuenya dari hasMap
             mRootRef.updateChildren(messageUserMap, new DatabaseReference.CompletionListener() {

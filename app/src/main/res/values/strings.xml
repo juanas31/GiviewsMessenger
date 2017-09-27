@@ -4,4 +4,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="default_status">Hi there i\'m using giviews</string>
+    <string name="navigation_drawer_close">navigation_drawer_close</string>
+    <string name="navigation_drawer_open">navigation_drawer_open</string>
+    <string name="display_name">Display Name</string>
+    <string name="display_status_here">Display Status here</string>
 </resources>

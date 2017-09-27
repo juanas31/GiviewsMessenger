@@ -3,7 +3,6 @@ package com.giviews.giviewsmessenger;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -16,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.giviews.giviewsmessenger.models.Friends;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +34,7 @@ public class FriendsFragment extends Fragment {
     private FirebaseAuth mAuth;
     private String mCurrent_user_id;
     private View mMainView;
+    private ImageView mUserOnline;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -54,6 +55,10 @@ public class FriendsFragment extends Fragment {
         mUsersDatabase.keepSynced(true);
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
         mFriendsDatabase.keepSynced(true);
+
+        //Online Dots Default Invisible
+        //mUserOnline = (ImageView) mMainView.findViewById(R.id.online_dots);
+        //mUserOnline.setVisibility(mMainView.INVISIBLE);
 
         mFriendsList.setHasFixedSize(true);
         mFriendsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -158,7 +163,7 @@ public class FriendsFragment extends Fragment {
 
         public void setUserOnline(String online_status) {
             ImageView userOnlineView = (ImageView) mView.findViewById(R.id.online_dots);
-            if (online_status.equals("true")) {
+            if (online_status.equals("online")) {
                 userOnlineView.setVisibility(View.VISIBLE);
             }else {
                 userOnlineView.setVisibility(View.INVISIBLE);

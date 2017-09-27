@@ -1,4 +1,4 @@
-package com.giviews.giviewsmessenger;
+package com.giviews.giviewsmessenger.models;
 
 /**
  * Created by asus on 18/08/2017.

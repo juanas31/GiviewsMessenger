@@ -9,45 +9,35 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 
 class SectionsPagerAdapter extends FragmentPagerAdapter{
-    public SectionsPagerAdapter(FragmentManager fm) {
+
+    private int number_tabs;
+
+    public SectionsPagerAdapter(FragmentManager fm, int number_tabs) {
         super(fm);
+        this.number_tabs = number_tabs;
     }
 
+
+    //Mengembalikan Fragment yang terkait dengan posisi tertentu
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0 :
-                RequestFragment requestFragment = new RequestFragment();
-                return requestFragment;
-
-            case 1 :
-                ChatsFragment chatsFragment = new ChatsFragment();
-                return  chatsFragment;
-
-            case 2 :
-                FriendsFragment friendsFragment = new FriendsFragment();
-                return  friendsFragment;
-
+        switch (position){
+            case 0:
+                return new RequestFragment();
+            case 1:
+                return new ChatsFragment();
+            case 2:
+                return new FriendsFragment();
+            case 3:
+                return new FriendsFragment();
             default:
                 return null;
         }
     }
 
+    //Mengembalikan jumlah tampilan yang tersedia.
     @Override
     public int getCount() {
-        return 3;
-    }
-
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0 :
-                return "REQUEST";
-            case 1 :
-                return "CHATS";
-            case 2 :
-                return "FRIENDS";
-            default:
-                return null;
-        }
+        return number_tabs;
     }
 }
