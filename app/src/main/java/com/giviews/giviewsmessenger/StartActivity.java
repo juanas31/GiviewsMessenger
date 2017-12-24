@@ -148,9 +148,25 @@ public class StartActivity extends AppCompatActivity {
         sliderView.setDurationScroll(800);
         List<Fragment> fragments = new ArrayList<>();
         fragments.add(FragmentSlider.newInstance("http://www.menucool.com/slider/prod/image-slider-1.jpg"));
-        fragments.add(FragmentSlider.newInstance("http://www.menucool.com/slider/prod/image-slider-2.jpg"));
+        fragments.add(FragmentSlider.newInstance("http://www.menucool.com/slider/prod/image_slider_2.jpg"));
         fragments.add(FragmentSlider.newInstance("http://www.menucool.com/slider/prod/image-slider-3.jpg"));
         fragments.add(FragmentSlider.newInstance("http://www.menucool.com/slider/prod/image-slider-4.jpg"));
+
+        mAdapter = new SliderPagerAdapter(getSupportFragmentManager(), fragments);
+        sliderView.setAdapter(mAdapter);
+        mIndicator = new SliderIndicator(this, mLinearLayout, sliderView, R.drawable.indicator_circle);
+        mIndicator.setPageCount(fragments.size());
+        mIndicator.show();
+    }
+
+    //image slider
+    private void setupSliderOffline() {
+        sliderView.setDurationScroll(800);
+        List<Fragment> fragments = new ArrayList<>();
+        fragments.add(FragmentSlider.newInstance("image_slider_1.jpg"));
+        fragments.add(FragmentSlider.newInstance("image_slider_2.jpg"));
+        fragments.add(FragmentSlider.newInstance("image-slider-1.jpg"));
+        fragments.add(FragmentSlider.newInstance("image_slider_2.jpg"));
 
         mAdapter = new SliderPagerAdapter(getSupportFragmentManager(), fragments);
         sliderView.setAdapter(mAdapter);
@@ -164,6 +180,7 @@ public class StartActivity extends AppCompatActivity {
         super.onStart();
 
         mAuth.addAuthStateListener(mAuthListener);
+        setupSlider();
     }
 
     private void signIn() {

@@ -20,7 +20,9 @@
         android:id="@+id/messages_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/linearLayout"
+        android:layout_alignBottom="@+id/file_attach"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/chat_bar">
 
     </android.support.v7.widget.RecyclerView>
@@ -58,6 +60,180 @@
             android:background="@color/colorWhite"
             android:padding="20dp"
             android:src="@drawable/ic_send" />
+        <ImageButton
+            android:id="@+id/voice"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_green"
+            android:src="@drawable/ic_mic"/>
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/file_attach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp">
+
+        <io.codetail.widget.RevealFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/md_white_1000"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                            android:id="@+id/mgallery"
+                            android:layout_gravity="center"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/circle_accent_other"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/ic_image_black_24dp" />
+                        <TextView
+                            android:layout_marginTop="-15dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Photo"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                            android:id="@+id/mcamera"
+                            android:layout_gravity="center"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/circle_lime"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_camera" />
+                        <TextView
+                            android:layout_marginTop="-15dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Camera"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                            android:id="@+id/mvideo"
+                            android:layout_gravity="center"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/circle_green"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_videocam_black_24dp" />
+                        <TextView
+                            android:layout_marginTop="-15dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Video"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                            android:id="@+id/mfiles"
+                            android:layout_gravity="center"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/circle_accent"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_attach_file_black_24dp" />
+                        <TextView
+                            android:layout_marginTop="-15dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Files"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                            android:id="@+id/mcontact"
+                            android:layout_gravity="center"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/circle_pink"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_person_black_24dp" />
+                        <TextView
+                            android:layout_marginTop="-15dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Contact"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <ImageButton
+                            android:id="@+id/mmusic"
+                            android:layout_gravity="center"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            android:background="@drawable/circle_blue"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_music_note_black_24dp" />
+                        <TextView
+                            android:layout_marginTop="-15dp"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Music"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </io.codetail.widget.RevealFrameLayout>
+    </FrameLayout>
 
 </RelativeLayout>

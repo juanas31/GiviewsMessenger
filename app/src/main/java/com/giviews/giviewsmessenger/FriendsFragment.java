@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,7 +35,9 @@ public class FriendsFragment extends Fragment {
     private FirebaseAuth mAuth;
     private String mCurrent_user_id;
     private View mMainView;
-    private ImageView mUserOnline;
+//    private ImageView mUserOnline;
+
+    private FloatingActionButton mFab;
 
     public FriendsFragment() {
         // Required empty public constructor
@@ -57,11 +60,20 @@ public class FriendsFragment extends Fragment {
         mFriendsDatabase.keepSynced(true);
 
         //Online Dots Default Invisible
-        //mUserOnline = (ImageView) mMainView.findViewById(R.id.online_dots);
-        //mUserOnline.setVisibility(mMainView.INVISIBLE);
+//        mUserOnline = (ImageView) mMainView.findViewById(R.id.online_dots);
+//        mUserOnline.setVisibility(mMainView.INVISIBLE);
 
         mFriendsList.setHasFixedSize(true);
         mFriendsList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //Floating Action Button
+        mFab = (FloatingActionButton) mMainView.findViewById(R.id.fab_add_friends);
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), UsersActivity.class));
+            }
+        });
         return mMainView;
     }
 
@@ -87,10 +99,10 @@ public class FriendsFragment extends Fragment {
                         final String userName = dataSnapshot.child("name").getValue().toString();
                         String userThumb = dataSnapshot.child("thumb_image").getValue().toString();
 
-                        if (dataSnapshot.hasChild("online")) {
-                            String userOnline = dataSnapshot.child("online").getValue().toString();
-                            friendsViewHolder.setUserOnline(userOnline);
-                        }
+//                        if (dataSnapshot.hasChild("online")) {
+//                            String userOnline = dataSnapshot.child("online").getValue().toString();
+//                            friendsViewHolder.setUserOnline(userOnline);
+//                        }
 
                         friendsViewHolder.setName(userName);
                         friendsViewHolder.setUserImage(userThumb, getContext());
@@ -161,13 +173,13 @@ public class FriendsFragment extends Fragment {
             Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(userImageView);
         }
 
-        public void setUserOnline(String online_status) {
-            ImageView userOnlineView = (ImageView) mView.findViewById(R.id.online_dots);
-            if (online_status.equals("online")) {
-                userOnlineView.setVisibility(View.VISIBLE);
-            }else {
-                userOnlineView.setVisibility(View.INVISIBLE);
-            }
-        }
+//        public void setUserOnline(String online_status) {
+//            ImageView userOnlineView = (ImageView) mView.findViewById(R.id.online_dots);
+//            if (online_status.equals("online")) {
+//                userOnlineView.setVisibility(View.VISIBLE);
+//            }else {
+//                userOnlineView.setVisibility(View.INVISIBLE);
+//            }
+//        }
     }
 }

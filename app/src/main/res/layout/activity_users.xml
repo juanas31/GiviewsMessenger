@@ -6,13 +6,49 @@
     android:layout_height="match_parent"
     tools:context="com.giviews.giviewsmessenger.UsersActivity">
 
-    <include layout="@layout/app_bar_layout" android:id="@+id/users_appBar" />
+    <!--<include layout="@layout/app_bar_layout" android:id="@+id/users_appBar" />-->
+
+    <LinearLayout
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/users_appBar"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:layout_height="wrap_content"
+        tools:ignore="UnknownId">
+        <ImageView
+            android:id="@+id/arrow_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_arrow_back"
+            android:padding="10dp"/>
+        <EditText
+            android:id="@+id/searchForm"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner"
+            android:hint="Cari Teman"
+            android:layout_marginRight="5dp"
+            android:padding="10dp" />
+
+        <ImageButton
+            android:id="@+id/searchBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/users_appBar"
+            android:layout_toEndOf="@+id/searchForm"
+            android:layout_toRightOf="@+id/searchForm"
+            android:padding="10dp"
+            android:background="@drawable/circle_accent"
+            android:src="@drawable/ic_search_black_24dp" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/users_list"
-        android:layout_below="@+id/users_appBar">
+        android:layout_below="@+id/form">
 
     </android.support.v7.widget.RecyclerView>
 

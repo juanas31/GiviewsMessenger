@@ -12,12 +12,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.giviews.giviewsmessenger.models.Friends;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,6 +42,14 @@ public class RequestFragment extends Fragment {
     private String mCurrent_user_id;
     private View mMainView;
     private ImageView mUserOnline;
+    private FirebaseUser mCurrentUser;
+    private String mCurrentState;
+
+    // view
+    private CircleImageView mProfilImage;
+    private TextView mProfileName, mProfilStatus, mCountFriends;
+    private Button mProfileSendReqBtn, mProfileDecReqBtn;
+    private RelativeLayout mRootView;
 
 
     public RequestFragment() {
@@ -52,7 +63,12 @@ public class RequestFragment extends Fragment {
         // Inflate the layout for this fragment
         mMainView = inflater.inflate(R.layout.fragment_request, container, false);
 
-        mFriendsList = (RecyclerView) mMainView.findViewById(R.id.friends_list);
+        mProfilImage = mMainView.findViewById(R.id.circleImageView);
+        mProfileSendReqBtn = mMainView.findViewById(R.id.btnAccept);
+        mProfileDecReqBtn = mMainView.findViewById(R.id.btnDecline);
+        mRootView = mMainView.findViewById(R.id.rootView);
+
+        mFriendsList = mMainView.findViewById(R.id.friends_list);
         mAuth = FirebaseAuth.getInstance();
 
         mCurrent_user_id = mAuth.getCurrentUser().getUid();
@@ -62,9 +78,19 @@ public class RequestFragment extends Fragment {
         mFriendsDatabase = FirebaseDatabase.getInstance().getReference().child("Friends").child(mCurrent_user_id);
         mFriendsDatabase.keepSynced(true);
 
-        //Online Dots Default Invisible
-        //mUserOnline = (ImageView) mMainView.findViewById(R.id.online_dots);
-        //mUserOnline.setVisibility(mMainView.INVISIBLE);
+        // mendapatkan id user
+        final String user_id = mFriendsDatabase.getKey();
+        mCurrentState = "not_friends";
+
+//        // jika userId = yang sedang login jangan tampilkan btn pertemanan
+//        if (mCurrent_user_id == user_id) {
+////            mRootView.setVisibility(View.GONE);
+//            mProfileSendReqBtn.setVisibility(View.GONE);
+//            mProfileSendReqBtn.setEnabled(false);
+//
+//            mProfileDecReqBtn.setVisibility(View.GONE);
+//            mProfileDecReqBtn.setEnabled(false);
+//        }
 
         mFriendsList.setHasFixedSize(true);
         mFriendsList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -92,11 +118,6 @@ public class RequestFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         final String userName = dataSnapshot.child("name").getValue().toString();
                         String userThumb = dataSnapshot.child("thumb_image").getValue().toString();
-
-//                        if (dataSnapshot.hasChild("online")) {
-//                            String userOnline = dataSnapshot.child("online").getValue().toString();
-//                            requestViewHolder.setUserOnline(userOnline);
-//                        }
 
                         requestViewHolder.setName(userName);
                         requestViewHolder.setUserImage(userThumb, getContext());
@@ -153,28 +174,19 @@ public class RequestFragment extends Fragment {
         }
 
         public void setDate(String date) {
-            TextView userStatusView = (TextView) mView.findViewById(R.id.status);
+            TextView userStatusView = mView.findViewById(R.id.status);
             userStatusView.setText(date);
         }
 
         public void setName(String name) {
-            TextView userNameView = (TextView) mView.findViewById(R.id.username);
+            TextView userNameView = mView.findViewById(R.id.username);
             userNameView.setText(name);
         }
 
         public void setUserImage(String thumb_image, Context ctx) {
-            CircleImageView userImageView = (CircleImageView) mView.findViewById(R.id.circleImageView);
+            CircleImageView userImageView = mView.findViewById(R.id.circleImageView);
             Picasso.with(ctx).load(thumb_image).placeholder(R.drawable.default_avatar).into(userImageView);
         }
-
-//        public void setUserOnline(String online_status) {
-//            ImageView userOnlineView = (ImageView) mView.findViewById(R.id.online_dots);
-//            if (online_status.equals("online")) {
-//                userOnlineView.setVisibility(View.VISIBLE);
-//            }else {
-//                userOnlineView.setVisibility(View.INVISIBLE);
-//            }
-//        }
     }
 
 }

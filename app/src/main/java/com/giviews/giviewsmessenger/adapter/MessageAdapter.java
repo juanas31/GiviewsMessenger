@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.giviews.giviewsmessenger.GetTimeAgo;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -54,21 +56,34 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         return viewHolder;
     }
 
-//    public class MessageViewHolder extends RecyclerView.ViewHolder {
-//        public TextView messageText;
-//        public CircleImageView profileImage;
-//        public TextView displayName;
-//        public TextView displayTime;
-//
-//        public MessageViewHolder(View view) {
-//            super(view);
-//
-//            messageText = (TextView) view.findViewById(R.id.message_text_layout);
-//            profileImage = (CircleImageView) view.findViewById(R.id.message_profile_layout);
-//            displayName = (TextView) view.findViewById(R.id.name_text_layout);
-//            displayTime = (TextView) view.findViewById(R.id.message_time_layout);
-//        }
-//    }
+    //casting view mychat viewholder
+    private static class MyChatViewHolder extends RecyclerView.ViewHolder {
+        private static TextView txtChatMessageA;
+        private static ImageView message_picture_a;
+//        private static TextView txtUserAlphabet;
+
+        public MyChatViewHolder(View itemView) {
+            super(itemView);
+            txtChatMessageA = (TextView) itemView.findViewById(R.id.text_view_chat_message_a);
+            message_picture_a = itemView.findViewById(R.id.message_picture_a);
+//            txtUserAlphabet = (TextView) itemView.findViewById(R.id.text_view_user_alphabet);
+        }
+    }
+
+    //Casting view other chat viewholder
+    private static class OtherChatViewHolder extends RecyclerView.ViewHolder {
+        private static TextView txtChatMessageB;
+        private static ImageView message_picture_b;
+//        private static TextView txtUserAlphabet;
+
+        public OtherChatViewHolder(View itemView) {
+            super(itemView);
+            txtChatMessageB = (TextView) itemView.findViewById(R.id.text_view_chat_message_b);
+            message_picture_b = itemView.findViewById(R.id.message_picture_b);
+//            txtUserAlphabet = (TextView) itemView.findViewById(R.id.text_view_user_alphabet);
+        }
+    }
+
 
     //get from
     @Override
@@ -95,6 +110,8 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         Messages c = mMessageList.get(position);
 
         String from_user = c.getFrom();
+        String message_type = c.getType();
+
         long time = c.getTime();
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(from_user);
@@ -102,15 +119,15 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String name = dataSnapshot.child("name").getValue().toString().substring(0, 1);
-                String image = dataSnapshot.child("thumb_image").getValue().toString();
+//                String name = dataSnapshot.child("name").getValue().toString().substring(0, 1);
+//                String image = dataSnapshot.child("thumb_image").getValue().toString();
 
                 //nama Pengirim pesan
-                holder.txtUserAlphabet.setText(name);
+//                holder.txtUserAlphabet.setText(name);
 
                 //gambar profile yang mengirim pesan
-                //Picasso.with(holder.profileImage.getContext()).load(image)
-                //        .placeholder(R.drawable.default_avatar).into(viewHolder.profileImage);
+//                Picasso.with(holder.profileImage.getContext()).load(image)
+//                        .placeholder(R.drawable.default_avatar).into(viewHolder.profileImage);
             }
 
             @Override
@@ -123,13 +140,23 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         //OtherChatViewHolder.txtChatMessage.setText(c.getMessage());
 
         //Memparsing time
-        GetTimeAgo getTimeAgo = new GetTimeAgo();
-        long lastTime = Long.parseLong(String.valueOf(time));
-        String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getTimeAgo);
+//        GetTimeAgo getTimeAgo = new GetTimeAgo();
+//        long lastTime = Long.parseLong(String.valueOf(time));
+//        String lastSeenTime = getTimeAgo.getTimeAgo(lastTime, getTimeAgo);
 
         //memasukan pesan dan waktu ke textview
-        // holder.displayTime.setText(lastSeenTime);
-        holder.txtChatMessage.setText(c.getMessage());
+//         holder.displayTime.setText(lastSeenTime);
+
+        if (message_type.equals("text")){
+            holder.txtChatMessageB.setText(c.getMessage());
+            holder.message_picture_b.setVisibility(View.INVISIBLE);
+        }else {
+            holder.txtChatMessageB.setVisibility(View.INVISIBLE);
+
+            Picasso.with(holder.itemView.getContext()).load(c.getMessage())
+                    .placeholder(R.drawable.default_avatar).into(holder.message_picture_b);
+        }
+
     }
 
     private void configureMyChatViewHolder(final MyChatViewHolder holder, final int position) {
@@ -137,6 +164,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         //String current_user_id = mAuth.getCurrentUser().getUid();
 
         Messages c = mMessageList.get(position);
+        String message_type = c.getType();
 
         String from_user = c.getFrom();
 //        long time = c.getTime();
@@ -150,7 +178,7 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 //                String image = dataSnapshot.child("thumb_image").getValue().toString();
 
                 //nama Pengirim pesan
-                holder.txtUserAlphabet.setText(name);
+//                holder.txtUserAlphabet.setText(name);
 
                 //gambar profile yang mengirim pesan
                 //Picasso.with(holder.profileImage.getContext()).load(image)
@@ -173,7 +201,16 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         //memasukan pesan dan waktu ke textview
 //         holder.displayTime.setText(lastSeenTime);
-        holder.txtChatMessage.setText(c.getMessage());
+
+        if (message_type.equals("text")){
+            holder.txtChatMessageA.setText(c.getMessage());
+            holder.message_picture_a.setVisibility(View.INVISIBLE);
+        }else {
+            holder.txtChatMessageA.setVisibility(View.INVISIBLE);
+
+            Picasso.with(holder.itemView.getContext()).load(c.getMessage())
+                    .placeholder(R.drawable.default_avatar).into(holder.message_picture_a);
+        }
     }
 
     //get item count
@@ -199,30 +236,6 @@ public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             return VIEW_TYPE_ME;
         } else {
             return VIEW_TYPE_OTHER;
-        }
-    }
-
-    //casting view mychat viewholder
-    private static class MyChatViewHolder extends RecyclerView.ViewHolder {
-        private static TextView txtChatMessage;
-        private static TextView txtUserAlphabet;
-
-        public MyChatViewHolder(View itemView) {
-            super(itemView);
-            txtChatMessage = (TextView) itemView.findViewById(R.id.text_view_chat_message);
-            txtUserAlphabet = (TextView) itemView.findViewById(R.id.text_view_user_alphabet);
-        }
-    }
-
-    //Casting view other chat viewholder
-    private static class OtherChatViewHolder extends RecyclerView.ViewHolder {
-        private static TextView txtChatMessage;
-        private static TextView txtUserAlphabet;
-
-        public OtherChatViewHolder(View itemView) {
-            super(itemView);
-            txtChatMessage = (TextView) itemView.findViewById(R.id.text_view_chat_message);
-            txtUserAlphabet = (TextView) itemView.findViewById(R.id.text_view_user_alphabet);
         }
     }
 }

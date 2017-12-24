@@ -223,6 +223,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
         } else if (item.getItemId() == R.id.action_all_user) {
             startActivity(new Intent(getApplicationContext(), UsersActivity.class));
+        } else if (item.getItemId() == R.id.action_search) {
+            startActivity(new Intent(getApplicationContext(), UsersActivity.class));
         }
 
         return true;
